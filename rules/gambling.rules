@@ -1,38 +1,5 @@
-# Gambling Traffic Detection Rules
-alert tls any any -> any any (
-    msg:"SURICATA TRAFFIC-ID: gambling-judi"; 
-    flow:to_server,established;
-    tls_sni;
-    content:"judi"; 
-    isdataat:!1,relative;
-    flowbits:set,traffic/id/gambling;
-    flowbits:set,traffic/label/gambling;
-    noalert;  # Tambahkan ini
-    sid:300100001;
-    rev:1;
-)
-
-alert tls any any -> any any (
-    msg:"SURICATA TRAFFIC-ID: gambling-slot";
-    flow:to_server,established;
-    tls_sni;
-    content:"slot";
-    isdataat:!1,relative;
-    flowbits:set,traffic/id/gambling;
-    flowbits:set,traffic/label/gambling;
-    noalert;  # Tambahkan ini
-    sid:300100002;
-    rev:1;
-)
-
-alert http any any -> any any (
-    msg:"SURICATA TRAFFIC-ID: gambling-http";
-    flow:to_server,established;
-    http_host;
-    content:"judi|slot|casino";
-    flowbits:set,traffic/id/gambling;
-    flowbits:set,traffic/label/gambling;
-    noalert;  # Tambahkan ini
-    sid:300100003;
-    rev:1;
-)
+alert tls any any -> any any (msg:"SURICATA TRAFFIC-ID: gambling-judi"; flow:to_server,established; tls_sni; content:"judi"; isdataat:!1,relative; flowbits:set,traffic/id/gambling; flowbits:set,traffic/label/gambling; noalert; sid:300100001; rev:1;)
+alert tls any any -> any any (msg:"SURICATA TRAFFIC-ID: gambling-slot"; flow:to_server,established; tls_sni; content:"slot"; isdataat:!1,relative; flowbits:set,traffic/id/gambling; flowbits:set,traffic/label/gambling; noalert; sid:300100002; rev:1;)
+alert tls any any -> any any (msg:"SURICATA TRAFFIC-ID: gambling-casino"; flow:to_server,established; tls_sni; content:"casino"; isdataat:!1,relative; flowbits:set,traffic/id/gambling; flowbits:set,traffic/label/gambling; noalert; sid:300100003; rev:1;)
+alert http any any -> any any (msg:"SURICATA TRAFFIC-ID: gambling-http"; flow:to_server,established; http_host; content:"judi|slot|casino"; flowbits:set,traffic/id/gambling; flowbits:set,traffic/label/gambling; noalert; sid:300100004; rev:1;)
+alert tls any any -> any any (msg:"SURICATA TRAFFIC-ID: gambling-togel"; flow:to_server,established; tls_sni; content:"togel"; isdataat:!1,relative; flowbits:set,traffic/id/gambling; flowbits:set,traffic/label/gambling; noalert; sid:300100005; rev:1;)
