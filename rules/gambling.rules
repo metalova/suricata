@@ -1,16 +1,20 @@
-alert http $HOME_NET any -> $EXTERNAL_NET any (
-    msg:"GAMBLING URL DETECT";
-    flow:established,to_server;
-    content:"judi"; http_uri; nocase;
-    sid:9000001;
-    rev:1;
-)
+# Deteksi di URL
+alert http any any -> any any (msg: "Gambling Access URL - JUDI"; flow:established,to_server; content:"judi"; nocase; http_uri; sid:50400001;)
+alert http any any -> any any (msg: "Gambling Access URL - SLOT"; flow:established,to_server; content:"slot"; nocase; http_uri; sid:50400002;)
+alert http any any -> any any (msg: "Gambling Access URL - CASINO"; flow:established,to_server; content:"casino"; nocase; http_uri; sid:50400003;)
+alert http any any -> any any (msg: "Gambling Access URL - POKER"; flow:established,to_server; content:"poker"; nocase; http_uri; sid:50400004;)
+alert http any any -> any any (msg: "Gambling Access URL - BETTING"; flow:established,to_server; content:"bet"; nocase; http_uri; sid:50400005;)
 
-# Rule 2 - Deteksi via SNI
-alert tls $HOME_NET any -> $EXTERNAL_NET any (
-    msg:"GAMBLING SNI DETECT";
-    flow:established,to_server;
-    tls.sni; content:".judi"; nocase;
-    sid:9000002;
-    rev:1;
-)
+# Deteksi di POST DATA
+alert http any any -> any any (msg: "Gambling Access POST - JUDI"; flow:established,to_server; content:"judi"; nocase; http_client_body; sid:50400006;)
+alert http any any -> any any (msg: "Gambling Access POST - SLOT"; flow:established,to_server; content:"slot"; nocase; http_client_body; sid:50400007;)
+alert http any any -> any any (msg: "Gambling Access POST - CASINO"; flow:established,to_server; content:"casino"; nocase; http_client_body; sid:50400008;)
+alert http any any -> any any (msg: "Gambling Access POST - POKER"; flow:established,to_server; content:"poker"; nocase; http_client_body; sid:50400009;)
+alert http any any -> any any (msg: "Gambling Access POST - BETTING"; flow:established,to_server; content:"bet"; nocase; http_client_body; sid:50400010;)
+
+# Deteksi di Host Header
+alert http any any -> any any (msg: "Gambling Domain Access - JUDI"; flow:established,to_server; content:"judi"; nocase; http_host; sid:50400011;)
+alert http any any -> any any (msg: "Gambling Domain Access - SLOT"; flow:established,to_server; content:"slot"; nocase; http_host; sid:50400012;)
+alert http any any -> any any (msg: "Gambling Domain Access - CASINO"; flow:established,to_server; content:"casino"; nocase; http_host; sid:50400013;)
+alert http any any -> any any (msg: "Gambling Domain Access - POKER"; flow:established,to_server; content:"poker"; nocase; http_host; sid:50400014;)
+alert http any any -> any any (msg: "Gambling Domain Access - BETTING"; flow:established,to_server; content:"bet"; nocase; http_host; sid:50400015;)
