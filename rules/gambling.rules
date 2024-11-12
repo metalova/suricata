@@ -1,60 +1,60 @@
-alert http $EXTERNAL_NET any -> $HOME_NET any (
-    msg:"ET GAMBLING Access URL JUDI";
-    flow:established,to_server;
-    http.request_line;
-    content:"judi";
-    fast_pattern;
-    nocase;
-    reference:url,gambling_detection;
-    classtype:policy-violation;
-    sid:2006001;
+# Gambling Traffic Detection Rules
+alert tls any any -> any any (
+    msg:"SURICATA TRAFFIC-ID: gambling-judi"; 
+    tls_sni; 
+    content:"judi"; 
+    isdataat:!1,relative; 
+    flow:to_server,established; 
+    flowbits:set,traffic/id/gambling; 
+    flowbits:set,traffic/label/gambling; 
+    sid:300100001; 
     rev:1;
-    metadata:affected_product Web_Applications, attack_target Web_Server,
-        deployment Network, tag GAMBLING, updated_at 2024_11_12;
 )
 
-alert http $EXTERNAL_NET any -> $HOME_NET any (
-    msg:"ET GAMBLING Access URL SLOT";
-    flow:established,to_server;
-    http.request_line;
-    content:"slot";
-    fast_pattern;
-    nocase;
-    reference:url,gambling_detection;
-    classtype:policy-violation;
-    sid:2006002;
+alert tls any any -> any any (
+    msg:"SURICATA TRAFFIC-ID: gambling-slot";
+    tls_sni; 
+    content:"slot"; 
+    isdataat:!1,relative; 
+    flow:to_server,established; 
+    flowbits:set,traffic/id/gambling; 
+    flowbits:set,traffic/label/gambling; 
+    sid:300100002; 
     rev:1;
-    metadata:affected_product Web_Applications, attack_target Web_Server,
-        deployment Network, tag GAMBLING, updated_at 2024_11_12;
 )
 
-alert http $EXTERNAL_NET any -> $HOME_NET any (
-    msg:"ET GAMBLING Access URL CASINO";
-    flow:established,to_server;
-    http.request_line;
-    content:"casino";
-    fast_pattern;
-    nocase;
-    reference:url,gambling_detection;
-    classtype:policy-violation;
-    sid:2006003;
+alert tls any any -> any any (
+    msg:"SURICATA TRAFFIC-ID: gambling-casino";
+    tls_sni; 
+    content:"casino"; 
+    isdataat:!1,relative; 
+    flow:to_server,established; 
+    flowbits:set,traffic/id/gambling; 
+    flowbits:set,traffic/label/gambling; 
+    sid:300100003; 
     rev:1;
-    metadata:affected_product Web_Applications, attack_target Web_Server,
-        deployment Network, tag GAMBLING, updated_at 2024_11_12;
 )
 
-alert http $EXTERNAL_NET any -> $HOME_NET any (
-    msg:"ET GAMBLING Content in POST Body";
-    flow:established,to_server;
-    http.client_body;
-    content:"judi|slot|casino";
-    fast_pattern;
-    nocase;
-    pcre:"/\b(judi|slot|casino|poker|bet)\b/i";
-    reference:url,gambling_detection;
-    classtype:policy-violation;
-    sid:2006004;
+alert http any any -> any any (
+    msg:"SURICATA TRAFFIC-ID: gambling-http";
+    content:"judi|slot|casino"; 
+    http_host; 
+    flow:to_server,established; 
+    flowbits:set,traffic/id/gambling; 
+    flowbits:set,traffic/label/gambling; 
+    sid:300100004; 
     rev:1;
-    metadata:affected_product Web_Applications, attack_target Web_Server,
-        deployment Network, tag GAMBLING, updated_at 2024_11_12;
+)
+
+# Extended patterns for gambling variations
+alert tls any any -> any any (
+    msg:"SURICATA TRAFFIC-ID: gambling-togel";
+    tls_sni; 
+    content:"togel"; 
+    isdataat:!1,relative; 
+    flow:to_server,established; 
+    flowbits:set,traffic/id/gambling; 
+    flowbits:set,traffic/label/gambling; 
+    sid:300100005; 
+    rev:1;
 )
