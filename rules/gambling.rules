@@ -1,11 +1,60 @@
-# Deteksi di URL - lebih lengkap
-alert http any any -> any any (msg: "Gambling Access URL"; flow:established,to_server; pcre:"/\b(judi|slot|casino|poker|bet|togel|bandar)\b/i"; http_uri; classtype:policy-violation; sid:50400001; rev:2;)
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+    msg:"ET GAMBLING Access URL JUDI";
+    flow:established,to_server;
+    http.request_line;
+    content:"judi";
+    fast_pattern;
+    nocase;
+    reference:url,gambling_detection;
+    classtype:policy-violation;
+    sid:2006001;
+    rev:1;
+    metadata:affected_product Web_Applications, attack_target Web_Server,
+        deployment Network, tag GAMBLING, updated_at 2024_11_12;
+)
 
-# Deteksi di hostname/domain
-alert http any any -> any any (msg: "Gambling Domain Access"; flow:established,to_server; pcre:"/\b(judi|slot|casino|poker|bet|togel|bandar)\b/i"; http_host; classtype:policy-violation; sid:50400002; rev:2;)
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+    msg:"ET GAMBLING Access URL SLOT";
+    flow:established,to_server;
+    http.request_line;
+    content:"slot";
+    fast_pattern;
+    nocase;
+    reference:url,gambling_detection;
+    classtype:policy-violation;
+    sid:2006002;
+    rev:1;
+    metadata:affected_product Web_Applications, attack_target Web_Server,
+        deployment Network, tag GAMBLING, updated_at 2024_11_12;
+)
 
-# Deteksi di user-agent
-alert http any any -> any any (msg: "Gambling User-Agent"; flow:established,to_server; pcre:"/\b(judi|slot|casino|poker|bet|togel|bandar)\b/i"; http_user_agent; classtype:policy-violation; sid:50400003; rev:2;)
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+    msg:"ET GAMBLING Access URL CASINO";
+    flow:established,to_server;
+    http.request_line;
+    content:"casino";
+    fast_pattern;
+    nocase;
+    reference:url,gambling_detection;
+    classtype:policy-violation;
+    sid:2006003;
+    rev:1;
+    metadata:affected_product Web_Applications, attack_target Web_Server,
+        deployment Network, tag GAMBLING, updated_at 2024_11_12;
+)
 
-# Deteksi kombinasi
-alert http any any -> any any (msg: "Combined Gambling Detection"; flow:established,to_server; pcre:"/\b(judi|slot|casino|poker|bet|togel|bandar)\b/i"; pcre:"/\b(online|daftar|login|link|alternatif)\b/i"; distance:0; http_uri; classtype:policy-violation; sid:50400004; rev:2;)
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+    msg:"ET GAMBLING Content in POST Body";
+    flow:established,to_server;
+    http.client_body;
+    content:"judi|slot|casino";
+    fast_pattern;
+    nocase;
+    pcre:"/\b(judi|slot|casino|poker|bet)\b/i";
+    reference:url,gambling_detection;
+    classtype:policy-violation;
+    sid:2006004;
+    rev:1;
+    metadata:affected_product Web_Applications, attack_target Web_Server,
+        deployment Network, tag GAMBLING, updated_at 2024_11_12;
+)
